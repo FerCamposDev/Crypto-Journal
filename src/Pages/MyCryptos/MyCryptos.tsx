@@ -9,11 +9,9 @@ const MyCryptos = () => {
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       {
-        cryptos.map((crypto) => {
-          return (
-            <CryptoItem crypto={crypto} /> 
-          )
-        })
+        cryptos.map((crypto) => (
+          <CryptoItem crypto={crypto} key={crypto.symbol} />
+        ))
       }
     </List >
   )

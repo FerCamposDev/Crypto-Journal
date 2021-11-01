@@ -9,7 +9,6 @@ const Home = () => {
   const { cryptos, getCryptos } = useCryptos();
   const history = useHistory();
 
-
   return (
     <Paper elevation={3} >
       {cryptos.length && <MyCryptos />}
