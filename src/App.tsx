@@ -1,8 +1,11 @@
+import { CryptoProvider } from './Context/CryptoProvider';
 import Router from './Router/Router';
 
 function App() {
   return (
-    <Router />
+    <CryptoProvider>
+      <Router />
+    </CryptoProvider>
   );
 }
 

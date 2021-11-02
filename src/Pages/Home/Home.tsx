@@ -1,17 +1,16 @@
-import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { Button, Paper } from '@mui/material';
 
-import useCryptos from '../../hooks/useCryptos'
+import useMyCryptos from '../../hooks/useMyCryptos';
 import MyCryptos from '../MyCryptos/MyCryptos';
 
 const Home = () => {
-  const { cryptos, getCryptos } = useCryptos();
+  const { myCryptos } = useMyCryptos();
   const history = useHistory();
 
   return (
     <Paper elevation={3} >
-      {cryptos.length && <MyCryptos />}
+      {myCryptos.length && <MyCryptos />}
       <Button 
         variant='contained'
         fullWidth

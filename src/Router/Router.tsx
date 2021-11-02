@@ -9,6 +9,7 @@ export default function Router() {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/add" component={AddCrypto} />
+          <Route path="/details/:symbol" component={AddCrypto} />
         </Switch>
     </BrowserRouter>
   );

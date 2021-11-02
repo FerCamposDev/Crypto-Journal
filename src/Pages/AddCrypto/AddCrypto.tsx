@@ -5,7 +5,7 @@ import CryptoSelect from './components/CryptoSelect';
 const AddCrypto = () => {
   return (
     <div>
-      <Typography variant="h3"> Add Crypto</Typography>
+      <Typography variant="h4" align='center'> Add Crypto</Typography>
       <CryptoSelect />
     </div>
   )
