@@ -87,7 +87,7 @@ export const CryptoProvider = ({ children }: Props) => {
     }
   }
 
-  async function getCryptoPrice(symbol: string): Promise<number> {
+  const getCryptoPrice = async (symbol: string): Promise<number> => {
     const res = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol.toUpperCase()}USDT`);
     return Number(res.data.price);
   }
@@ -100,7 +100,8 @@ export const CryptoProvider = ({ children }: Props) => {
       setMyNewCrypto,
       addMyNewCrypto,
       setCryptoEdited,
-      deleteCrypto
+      deleteCrypto,
+      getCryptoPrice,
     }}>
       {children}
     </CryptoContext.Provider>

@@ -11,7 +11,7 @@ export default function Router() {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/add" component={AddCrypto} />
-          <Route path="/see/:id" component={SeeCrypto} />
+          <Route path="/see/:symbol" component={SeeCrypto} />
           <Route path="/edit/:id" component={Edit} />
         </Switch>
     </BrowserRouter>

@@ -21,7 +21,7 @@ const CryptoItem = ({ crypto }: Props) => {
   const total = crypto.current_price * crypto.amount;
 
   const seeCrypto = () => {
-    history.push(`/see/${crypto.id}`)
+    history.push(`/see/${crypto.symbol}`)
   }
 
   const editCrypto = () => {

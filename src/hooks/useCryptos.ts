@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react'
 import { CryptoContext } from '../Context/CryptoContext';
 
 const useCryptos = () => {
-  const { state, getCryptos } = useContext(CryptoContext)
+  const { state, getCryptos, getCryptoPrice } = useContext(CryptoContext)
   const { cryptos } = state;
 
   useEffect(() => {
@@ -10,7 +10,8 @@ const useCryptos = () => {
   }, [])
 
   return {
-    cryptos
+    cryptos,
+    getCryptoPrice,
   }
 }
 
