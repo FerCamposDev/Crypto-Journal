@@ -7,41 +7,47 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
 import TextField from '@mui/material/TextField';
 
 import useCryptos from '../../../hooks/useCryptos';
 import { DialogContent } from '@mui/material';
+import useMyCryptos from '../../../hooks/useMyCryptos';
+import { CryptoGecko } from '../../../types/types';
 
 export interface CryptoDialogProps {
   open: boolean;
-  selectedValue: string;
-  onClose: (value: string) => void;
+  onClose: (value?: CryptoGecko) => void;
 }
 
 function CryptoDialog(props: CryptoDialogProps) {
+  const { onClose, open } = props;
+
   const { cryptos } = useCryptos();
-  const [cryptoList, setCryptoList] = useState<Array<any>>([]);
+  const { myNewCrypto, setMyNewCrypto } = useMyCryptos();
+  const [cryptoList, setCryptoList] = useState<Array<CryptoGecko>>([]);
 
   useEffect(() => {
     setCryptoList(cryptos)
   }, [cryptos]);
 
-  const { onClose, selectedValue, open } = props;
-
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
     setCryptoList(cryptos);
   };
 
-  const handleListItemClick = (value: any) => {
-    onClose(value);
+  const handleListItemClick = (value: CryptoGecko) => {
+    myNewCrypto.symbol = value.symbol;
+    myNewCrypto.name = value.name;
+    myNewCrypto.image = value.image;
+    myNewCrypto.current_price = value.current_price;
+    setMyNewCrypto(myNewCrypto);
+
+    onClose();
     setCryptoList(cryptos);
   };
 
   const search = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const value = e.target.value.toLowerCase();
     const filtered = cryptos.filter(crypto => crypto.name.toLowerCase().includes(value) || crypto.symbol.includes(value))
     setCryptoList(filtered);
   }
@@ -53,22 +59,21 @@ function CryptoDialog(props: CryptoDialogProps) {
       </DialogTitle>
       <DialogContent>
         <TextField
-          sx={{ mt: 2}}
+          sx={{ mt: 2 }}
           label="Search"
           onChange={search}
+          fullWidth
         />
         <List sx={{ pt: 0, minHeight: '70vh' }}>
           {cryptoList.map((crypto) => (
             <ListItem button
-              onClick={() => handleListItemClick(crypto.name)}
+              onClick={() => handleListItemClick(crypto)}
               key={crypto.symbol}
             >
               <ListItemAvatar>
-                <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}
-                  src={crypto.image}
-                />
+                <Avatar src={crypto.image} />
               </ListItemAvatar>
-              <ListItemText primary={crypto.name} />
+              <ListItemText primary={`${crypto.name} (${crypto.symbol})`} />
             </ListItem>
           ))}
         </List>
@@ -79,15 +84,13 @@ function CryptoDialog(props: CryptoDialogProps) {
 
 export default function CryptoSelect() {
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<any>();
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = (value: any) => {
+  const handleClose = () => {
     setOpen(false);
-    setSelectedValue(value);
   };
 
   return (
@@ -101,13 +104,9 @@ export default function CryptoSelect() {
         Select crypto
       </Button>
       <CryptoDialog
-        selectedValue={selectedValue}
         open={open}
         onClose={handleClose}
       />
-      <Typography variant="subtitle1" component="div">
-        Selected: {selectedValue}
-      </Typography>
     </div>
   );
 }

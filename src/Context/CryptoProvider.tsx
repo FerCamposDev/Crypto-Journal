@@ -1,9 +1,11 @@
 import { useReducer } from "react";
 import axios from "axios";
-import { Crypto, CryptoGecko, CryptoState } from "../types/types";
+import uniqueString from "unique-string";
+import { Crypto, CryptoGecko } from "../types/types";
 import { CryptoContext } from "./CryptoContext";
 import { cryptoReducer } from "./cryptoReducer";
-import { INITIAL_STATE } from "./InitialState";
+import { INITIAL_STATE, NEW_CRYPTO } from "./InitialState";
+import { saveCryptos } from "../utils/localStorage";
 
 interface Props {
   children: JSX.Element | JSX.Element[]
@@ -32,6 +34,47 @@ export const CryptoProvider = ({ children }: Props) => {
     }
   }
 
+  const setMyNewCrypto = (newCrypto: Crypto) => {
+    dispatch({
+      type: 'SET_MY_NEW_CRYPTO',
+      payload: newCrypto,
+    })
+  }
+
+  const setCryptoEdited = (cryptoEdited: Crypto) => {
+    let myCryptos = [...state.myCryptos];
+    const pos = myCryptos.findIndex(crypto => crypto.id === cryptoEdited.id);
+    myCryptos.splice(pos, 1, cryptoEdited);
+    console.log('myCryptos :>> ', myCryptos);
+    dispatch({
+      type: 'UPDATE_MY_CRYPTO',
+      payload: myCryptos,
+    })
+    saveCryptos(myCryptos);
+  }
+
+  const addMyNewCrypto = () => {
+    dispatch({
+      type: 'ADD_MY_CRYPTO',
+      payload: state.myNewCrypto,
+    })
+
+    const newCrypto = { ...NEW_CRYPTO };
+    newCrypto.id = uniqueString();
+    setMyNewCrypto(newCrypto);
+  }
+
+  const deleteCrypto = (id: string) => {
+    let myCryptos = [...state.myCryptos];
+    const pos = myCryptos.findIndex(crypto => crypto.id === id);
+    myCryptos.splice(pos, 1);
+    dispatch({
+      type: 'DELETE_MY_CRYPTO',
+      payload: myCryptos,
+    });
+    saveCryptos(myCryptos);
+  }
+
   function completeTodayCryptoData(myCryptos: Crypto[] = []) {
     if (state.cryptos.length) {
       myCryptos.forEach((myCrypto: Crypto) => {
@@ -54,6 +97,10 @@ export const CryptoProvider = ({ children }: Props) => {
       state,
       getCryptos,
       getMyCryptos,
+      setMyNewCrypto,
+      addMyNewCrypto,
+      setCryptoEdited,
+      deleteCrypto
     }}>
       {children}
     </CryptoContext.Provider>

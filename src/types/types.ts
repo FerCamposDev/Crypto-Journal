@@ -1,8 +1,10 @@
 export interface Crypto {
+  id: string
+  date: Date
   name: string
   symbol: string
   image: string
-  amount: string
+  amount: number
   price: number
   current_price: number
 }
