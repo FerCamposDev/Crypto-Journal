@@ -34,9 +34,12 @@ const Page = (props: Props) => {
               <Home />
             </IconButton>
           </Grid>
-          <Grid item>
-            <SettingsButton />
-          </Grid>
+          {
+            history.location.pathname === '/' &&
+            <Grid item>
+              <SettingsButton />
+            </Grid>
+          }
         </Grid>
         <Typography variant="h5" align='center' sx={{ pb: 3 }}>
           {title}

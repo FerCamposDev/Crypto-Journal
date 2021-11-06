@@ -22,7 +22,8 @@ const useMyCryptos = () => {
     setMyNewCrypto,
     addMyNewCrypto,
     setCryptoEdited,
-    deleteCrypto
+    deleteCrypto,
+    getMyCryptos,
   }
 }
 
