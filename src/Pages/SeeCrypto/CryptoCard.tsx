@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -14,10 +13,11 @@ import useDollar from '../../hooks/useDollar';
 interface CardProps {
   crypto: Crypto
   currentPrice: number
+  handlePrice: () => void
 }
 
 export default function CryptoCard(props: CardProps) {
-  const { crypto, currentPrice } = props;
+  const { crypto, currentPrice, handlePrice } = props;
   const [total, setTotal] = useState(currentPrice * crypto.amount);
   const { dollarPriceArs } = useDollar();
   const [totalArs, setTotalArs] = useState(total * dollarPriceArs);
@@ -25,8 +25,6 @@ export default function CryptoCard(props: CardProps) {
   useEffect(() => {
     const newTotal = currentPrice * crypto.amount;
     setTotal(newTotal);
-    console.log('newTotal :>> ', newTotal);
-    console.log('dollarPriceArs :>> ', dollarPriceArs);
     setTotalArs(newTotal * dollarPriceArs);
   }, [currentPrice, dollarPriceArs]);
 
@@ -37,7 +35,7 @@ export default function CryptoCard(props: CardProps) {
           <Avatar src={crypto.image} />
         }
         action={
-          <IconButton aria-label="refresh">
+          <IconButton aria-label="refresh" onClick={handlePrice}>
             <Refresh />
           </IconButton>
         }
@@ -46,7 +44,7 @@ export default function CryptoCard(props: CardProps) {
       />
       <CardContent sx={{ pt: 0 }}>
         <Typography variant="body2" color="text.secondary">
-          {/* Date: {crypto.date.toLocaleDateString()} */}
+          Date: {crypto.date.toLocaleDateString()}
           <br />
           Balance: {crypto.amount}
           <br />
@@ -57,14 +55,6 @@ export default function CryptoCard(props: CardProps) {
           Ars: $ {totalArs.toFixed(2)}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        {/* <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton> */}
-      </CardActions>
     </Card>
   );
 }

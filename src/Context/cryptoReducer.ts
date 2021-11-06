@@ -1,5 +1,5 @@
 import { Crypto, CryptoGecko, CryptoState } from "../types/types";
-import { saveCryptos } from "../utils/localStorage";
+import { saveCryptosStorage } from "../utils/localStorage";
 
 type Actions =
   | { type: 'GET_CRYPTOS', payload: CryptoGecko[] }
@@ -30,7 +30,7 @@ export const cryptoReducer = (state: CryptoState, action: Actions): CryptoState 
         myNewCrypto: action.payload
       };
     case 'ADD_MY_CRYPTO':
-      saveCryptos([...state.myCryptos, action.payload]);
+      saveCryptosStorage([...state.myCryptos, action.payload]);
       return {
         ...state,
         myCryptos: [...state.myCryptos, action.payload]

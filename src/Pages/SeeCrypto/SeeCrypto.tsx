@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Avatar, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import { Crypto } from '../../types/types';
 import useMyCryptos from '../../hooks/useMyCryptos';
@@ -8,12 +8,12 @@ import useMyCryptos from '../../hooks/useMyCryptos';
 import Page from '../../components/Page';
 import CryptoCard from './CryptoCard';
 import useCryptos from '../../hooks/useCryptos';
-import { setInterval } from 'timers';
 
 const SeeCrypto = () => {
   const { myCryptos } = useMyCryptos();
   const { getCryptoPrice } = useCryptos();
   const { symbol }: any = useParams();
+
   const [myCrypto, setMyCrypto] = useState<Array<Crypto>>([]);
   const [currentPrice, setCurrentPrice] = useState(0);
 
@@ -24,13 +24,18 @@ const SeeCrypto = () => {
     }
   }, [symbol, myCryptos]);
 
+  const updateCryptoPrice = async() => {
+    const price = await getCryptoPrice(symbol);
+    setCurrentPrice(price);
+  }
+
   useEffect(() => {
-    setInterval(async() => {
-      const price = await getCryptoPrice(symbol);
-      setCurrentPrice(price);
-      console.log(`Price obtenido: ${price}`);
+    const interval = setInterval(async () => {
+      updateCryptoPrice();
     }, 10000);
-  }, [])
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     myCrypto.length > 0 ?
@@ -42,6 +47,7 @@ const SeeCrypto = () => {
                 <CryptoCard key={crypto.id}
                   currentPrice={currentPrice || crypto.current_price}
                   crypto={crypto}
+                  handlePrice={updateCryptoPrice}
                 />
               )
             })

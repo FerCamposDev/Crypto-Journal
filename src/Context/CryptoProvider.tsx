@@ -5,7 +5,7 @@ import { Crypto, CryptoGecko } from "../types/types";
 import { CryptoContext } from "./CryptoContext";
 import { cryptoReducer } from "./cryptoReducer";
 import { INITIAL_STATE, NEW_CRYPTO } from "./InitialState";
-import { saveCryptos } from "../utils/localStorage";
+import { getCryptosStorage, saveCryptosStorage } from "../utils/localStorage";
 
 interface Props {
   children: JSX.Element | JSX.Element[]
@@ -23,15 +23,12 @@ export const CryptoProvider = ({ children }: Props) => {
   }
 
   const getMyCryptos = () => {
-    const storage = localStorage.getItem('myCryptos');
-    if (storage) {
-      const myCryptos: Crypto[] = JSON.parse(storage);
-      completeTodayCryptoData(myCryptos);
-      dispatch({
-        type: 'GET_MY_CRYPTOS',
-        payload: myCryptos,
-      })
-    }
+    const myCryptos = getCryptosStorage();
+    completeTodayCryptoData(myCryptos);
+    dispatch({
+      type: 'GET_MY_CRYPTOS',
+      payload: myCryptos,
+    })
   }
 
   const setMyNewCrypto = (newCrypto: Crypto) => {
@@ -45,12 +42,11 @@ export const CryptoProvider = ({ children }: Props) => {
     let myCryptos = [...state.myCryptos];
     const pos = myCryptos.findIndex(crypto => crypto.id === cryptoEdited.id);
     myCryptos.splice(pos, 1, cryptoEdited);
-    console.log('myCryptos :>> ', myCryptos);
     dispatch({
       type: 'UPDATE_MY_CRYPTO',
       payload: myCryptos,
     })
-    saveCryptos(myCryptos);
+    saveCryptosStorage(myCryptos);
   }
 
   const addMyNewCrypto = () => {
@@ -72,7 +68,7 @@ export const CryptoProvider = ({ children }: Props) => {
       type: 'DELETE_MY_CRYPTO',
       payload: myCryptos,
     });
-    saveCryptos(myCryptos);
+    saveCryptosStorage(myCryptos);
   }
 
   function completeTodayCryptoData(myCryptos: Crypto[] = []) {
@@ -87,11 +83,6 @@ export const CryptoProvider = ({ children }: Props) => {
     }
   }
 
-  const getCryptoPrice = async (symbol: string): Promise<number> => {
-    const res = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol.toUpperCase()}USDT`);
-    return Number(res.data.price);
-  }
-
   return (
     <CryptoContext.Provider value={{
       state,
@@ -101,7 +92,6 @@ export const CryptoProvider = ({ children }: Props) => {
       addMyNewCrypto,
       setCryptoEdited,
       deleteCrypto,
-      getCryptoPrice,
     }}>
       {children}
     </CryptoContext.Provider>

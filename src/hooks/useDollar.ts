@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axios from "axios"
-import { blue } from '@mui/material/colors';
 
 const useDollar = () => {
   const [dollarPriceArs, setDollarPriceArs] = useState(0);

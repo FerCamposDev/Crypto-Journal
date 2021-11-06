@@ -14,7 +14,7 @@ const useMyCryptos = () => {
 
   useEffect(() => {
     getMyCryptos();
-  }, [])
+  }, []);
 
   return {
     myCryptos,

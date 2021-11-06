@@ -9,7 +9,6 @@ export type CryptoContextProps = {
   addMyNewCrypto: () => void,
   setCryptoEdited: (cryptoEdited: Crypto) => void,
   deleteCrypto: (id: string) => void,
-  getCryptoPrice: (symbol: string) => Promise<number>,
 }
 
 export const CryptoContext = createContext<CryptoContextProps>({} as CryptoContextProps);
