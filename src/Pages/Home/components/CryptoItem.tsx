@@ -10,6 +10,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import { useHistory } from 'react-router';
 import { Crypto } from '../../../types/types';
 import useMyCryptos from '../../../hooks/useMyCryptos';
+import Typography from '@mui/material/Typography'
 
 interface Props {
   crypto: Crypto
@@ -48,7 +49,11 @@ const CryptoItem = ({ crypto }: Props) => {
         <Avatar src={crypto.image} />
       </ListItemAvatar>
       <ListItemText
-        primary={`${crypto.name} $ ${total.toFixed(2)}`}
+        primary={
+          <Typography variant="body1">
+            {crypto.name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ {total.toFixed(2)}
+          </Typography>
+        }
         secondary={`${crypto.amount} `}
       />
     </ListItem>

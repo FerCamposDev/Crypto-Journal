@@ -15,8 +15,12 @@ const CryptoForm = ({ editCrypto }: { editCrypto?: Crypto }) => {
   } = useMyCryptos();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    let value :string | Date = e.target.value;
     const name = e.target.name;
+
+    if (name === 'date') {
+      value = new Date(value);
+    }
 
     if (editCrypto) {
       (editCrypto as any)[name] = value;

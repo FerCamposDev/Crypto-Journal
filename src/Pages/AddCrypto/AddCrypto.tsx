@@ -1,7 +1,7 @@
 import { Avatar, Grid } from '@mui/material';
 import useMyCryptos from '../../hooks/useMyCryptos';
 
-import Page from '../../components/Page';
+import Page from '../../components/Page/Page';
 import CryptoSelect from './components/CryptoSelect';
 import Form from '../../components/CryptoForm';
 

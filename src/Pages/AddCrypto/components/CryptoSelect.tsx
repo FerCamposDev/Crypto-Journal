@@ -63,6 +63,7 @@ function CryptoDialog(props: CryptoDialogProps) {
           label="Search"
           onChange={search}
           fullWidth
+          autoFocus
         />
         <List sx={{ pt: 0, minHeight: '70vh' }}>
           {cryptoList.map((crypto) => (

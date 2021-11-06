@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Avatar, Grid } from '@mui/material';
 import useMyCryptos from '../../hooks/useMyCryptos';
 
-import Page from '../../components/Page';
+import Page from '../../components/Page/Page';
 import Form from '../../components/CryptoForm';
 import { Crypto } from '../../types/types';
 

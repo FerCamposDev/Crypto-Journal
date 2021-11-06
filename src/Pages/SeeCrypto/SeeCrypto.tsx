@@ -5,7 +5,7 @@ import { Grid } from '@mui/material';
 import { Crypto } from '../../types/types';
 import useMyCryptos from '../../hooks/useMyCryptos';
 
-import Page from '../../components/Page';
+import Page from '../../components/Page/Page';
 import CryptoCard from './CryptoCard';
 import useCryptos from '../../hooks/useCryptos';
 

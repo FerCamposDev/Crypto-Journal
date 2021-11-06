@@ -1,11 +1,14 @@
 import { ArrowBack, Home } from '@mui/icons-material';
-import { Container, IconButton, Typography } from '@mui/material'
+import { Container, Grid, IconButton, Typography } from '@mui/material'
 import { useHistory } from 'react-router';
+
+import SettingsButton from './components/SettingsButton';
 
 interface Props {
   title: string
   children: JSX.Element | JSX.Element[]
 }
+
 
 const Page = (props: Props) => {
   const { children, title } = props;
@@ -20,14 +23,21 @@ const Page = (props: Props) => {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent:'center', alignItems:'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Container maxWidth='md' sx={{ p: 0, m: 0 }}>
-        <IconButton onClick={handleBack}>
-          <ArrowBack />
-        </IconButton>
-        <IconButton onClick={handleHome}>
-          <Home />
-        </IconButton>
+        <Grid container justifyContent='space-between'>
+          <Grid item>
+            <IconButton onClick={handleBack}>
+              <ArrowBack />
+            </IconButton>
+            <IconButton onClick={handleHome}>
+              <Home />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <SettingsButton />
+          </Grid>
+        </Grid>
         <Typography variant="h5" align='center' sx={{ pb: 3 }}>
           {title}
         </Typography>

@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router';
 import { Button, Paper } from '@mui/material';
 
-import Page from '../../components/Page';
+import Page from '../../components/Page/Page';
 
 import useMyCryptos from '../../hooks/useMyCryptos';
 import MyCryptos from './components/MyCryptos';
