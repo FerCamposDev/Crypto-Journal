@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import { Crypto } from '../../../types/types';
 import useMyCryptos from '../../../hooks/useMyCryptos';
 import Typography from '@mui/material/Typography'
+import { Grid, ListItemSecondaryAction } from '@mui/material';
 
 interface Props {
   crypto: Crypto
@@ -30,32 +31,38 @@ const CryptoItem = ({ crypto }: Props) => {
   }
 
   return (
-    <ListItem
-      secondaryAction={
-        <>
-          <IconButton onClick={seeCrypto}>
-            <Visibility />
-          </IconButton>
-          <IconButton onClick={editCrypto}>
-            <Edit />
-          </IconButton>
-          <IconButton edge="end" onClick={() => deleteCrypto(crypto.id)}>
-            <Delete />
-          </IconButton>
-        </>
-      }
-    >
+    <ListItem >
       <ListItemAvatar>
         <Avatar src={crypto.image} />
       </ListItemAvatar>
       <ListItemText
         primary={
-          <Typography variant="body1">
-            {crypto.name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ {total.toFixed(2)}
-          </Typography>
+          <Grid container alignItems='center'>
+            <Grid item xs={5} sm={5}>
+              <Typography variant="subtitle2" >
+                {crypto.name}
+              </Typography>
+            </Grid>
+            <Grid item xs={7} sm={7}>
+              <Typography variant="body1" >
+                $ {total.toFixed(2)}
+              </Typography>
+            </Grid>
+          </Grid>
         }
-        secondary={`${crypto.amount} `}
+        secondary={`Balance ${crypto.amount}`}
       />
+      <ListItemSecondaryAction >
+        <IconButton onClick={seeCrypto} size='small'>
+          <Visibility fontSize='small' />
+        </IconButton>
+        <IconButton onClick={editCrypto} size='small'>
+          <Edit fontSize='small' />
+        </IconButton>
+        <IconButton edge="end" onClick={() => deleteCrypto(crypto.id)} size='small'>
+          <Delete fontSize='small' />
+        </IconButton>
+      </ListItemSecondaryAction >
     </ListItem>
   )
 }

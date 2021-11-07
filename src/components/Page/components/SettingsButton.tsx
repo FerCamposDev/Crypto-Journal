@@ -46,7 +46,7 @@ export default function SettingsButton() {
         <MenuList>
           <label htmlFor="icon-button-file">
             <MenuItem >
-              <Input accept="application/json" id="icon-button-file" type="file" onChange={handleFile}/>
+              <Input accept=".json" id="icon-button-file" type="file" onChange={handleFile}/>
               <ListItemIcon>
                 <Upload fontSize="small" />
               </ListItemIcon>

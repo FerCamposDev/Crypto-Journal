@@ -9,7 +9,6 @@ interface Props {
   children: JSX.Element | JSX.Element[]
 }
 
-
 const Page = (props: Props) => {
   const { children, title } = props;
   const history = useHistory();
@@ -50,4 +49,4 @@ const Page = (props: Props) => {
   )
 }
 
-export default Page
+export default Page;
