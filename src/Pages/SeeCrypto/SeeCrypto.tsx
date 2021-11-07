@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Grid } from '@mui/material';
 
@@ -24,10 +24,10 @@ const SeeCrypto = () => {
     }
   }, [symbol, myCryptos]);
 
-  const updateCryptoPrice = async() => {
+  const updateCryptoPrice = useCallback(async () => {
     const price = await getCryptoPrice(symbol);
     setCurrentPrice(price);
-  }
+  }, [setCurrentPrice, getCryptoPrice, symbol]);
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -35,12 +35,12 @@ const SeeCrypto = () => {
     }, 10000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [updateCryptoPrice]);
 
   return (
     myCrypto.length > 0 ?
-      <Page title={myCrypto[0].name}>
-        <Grid container alignItems='center' justifyContent='center' sx={{ pt: 3 }}>
+      <Page title={myCrypto[0].name.toUpperCase()}>
+        <Grid container alignItems='center' justifyContent='center' >
           {
             myCrypto.map((crypto) => {
               return (

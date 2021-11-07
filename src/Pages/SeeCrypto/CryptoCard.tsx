@@ -9,6 +9,7 @@ import Refresh from '@mui/icons-material/Refresh';
 
 import { Crypto } from '../../types/types';
 import useDollar from '../../hooks/useDollar';
+import { Grid } from '@mui/material';
 
 interface CardProps {
   crypto: Crypto
@@ -26,10 +27,10 @@ export default function CryptoCard(props: CardProps) {
     const newTotal = currentPrice * crypto.amount;
     setTotal(newTotal);
     setTotalArs(newTotal * dollarPriceArs);
-  }, [currentPrice, dollarPriceArs]);
+  }, [currentPrice, dollarPriceArs, crypto.amount]);
 
   return (
-    <Card sx={{ width: '100%' }}>
+    <Card sx={{ width: '100%', mb: '15px' }}>
       <CardHeader sx={{ m: 0, pb: 0 }}
         avatar={
           <Avatar src={crypto.image} />
@@ -39,21 +40,28 @@ export default function CryptoCard(props: CardProps) {
             <Refresh />
           </IconButton>
         }
-        title={`${crypto.name} - ${crypto.symbol}`}
-        subheader={`Total u$d ${total.toFixed(2)}`}
+        title={crypto.symbol.toUpperCase()}
+        subheader={<><b>Balance:</b> {crypto.amount}</>}
       />
-      <CardContent sx={{ pt: 0 }}>
-        <Typography variant="body2" color="text.secondary">
-          Date: {crypto.date.toLocaleDateString()}
-          <br />
-          Balance: {crypto.amount}
-          <br />
-          Purchase price: u$d {crypto.price}
-          <br />
-          Current price: u$d {currentPrice.toFixed(2)}
-          <br />
-          Ars: $ {totalArs.toFixed(2)}
-        </Typography>
+      <CardContent >
+        <Grid container>
+          <Grid item xs={6}>
+            <Typography variant="body2" color="text.secondary">
+              <b>Date:</b> {crypto.date.toLocaleDateString()}.
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2" color="text.secondary">
+              <b>Purchase price:</b>&nbsp;u$d {crypto.price}
+              <br />
+              <b>Current price:</b>&nbsp;u$d {currentPrice.toFixed(2)}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" align='center'>
+              <br />
+              <b>Total: u$d</b> {total.toFixed(2)} - <b>ARS:</b> $ {totalArs.toFixed(2)}
+            </Typography>
+          </Grid>
+        </Grid>
       </CardContent>
     </Card>
   );

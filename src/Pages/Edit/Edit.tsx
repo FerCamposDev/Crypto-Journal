@@ -14,19 +14,19 @@ const Edit = () => {
 
   useEffect(() => {
     const result = myCryptos.find(crypto => crypto.id === id);
-    if(result){
+    if (result) {
       setMyCrypto(result);
     }
-  }, []);
+  }, [myCryptos, id]);
 
   return (
     <Page title={(myCrypto && myCrypto.name) || 'Crypto not found'}>
       <>
         {
           (myCrypto && myCrypto.image) &&
-          <Grid container alignItems='center' justifyContent='center' sx={{ pt: 3 }}>
+          <Grid container alignItems='center' justifyContent='center'>
             <Avatar src={myCrypto.image} />
-            <Form editCrypto={myCrypto}/>
+            <Form editCrypto={myCrypto} />
           </Grid>
         }
       </>

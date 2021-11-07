@@ -5,7 +5,6 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
-import Visibility from '@mui/icons-material/Visibility';
 
 import { useHistory } from 'react-router';
 import { Crypto } from '../../../types/types';
@@ -36,30 +35,28 @@ const CryptoItem = ({ crypto }: Props) => {
         <Avatar src={crypto.image} />
       </ListItemAvatar>
       <ListItemText
+        onClick={seeCrypto}
         primary={
           <Grid container alignItems='center'>
-            <Grid item xs={5} sm={5}>
+            <Grid item xs={6} >
               <Typography variant="subtitle2" >
                 {crypto.name}
               </Typography>
             </Grid>
-            <Grid item xs={7} sm={7}>
+            <Grid item xs={6} >
               <Typography variant="body1" >
                 $ {total.toFixed(2)}
               </Typography>
             </Grid>
           </Grid>
         }
-        secondary={`Balance ${crypto.amount}`}
+        secondary={crypto.amount}
       />
       <ListItemSecondaryAction >
-        <IconButton onClick={seeCrypto} size='small'>
-          <Visibility fontSize='small' />
-        </IconButton>
-        <IconButton onClick={editCrypto} size='small'>
+        <IconButton onClick={editCrypto} >
           <Edit fontSize='small' />
         </IconButton>
-        <IconButton edge="end" onClick={() => deleteCrypto(crypto.id)} size='small'>
+        <IconButton edge="end" onClick={() => deleteCrypto(crypto.id)} >
           <Delete fontSize='small' />
         </IconButton>
       </ListItemSecondaryAction >

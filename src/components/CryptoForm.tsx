@@ -1,12 +1,15 @@
 
 import React from 'react';
+import { useHistory } from 'react-router';
+import uniqueString from 'unique-string';
 import { Button, Grid, TextField } from '@mui/material';
+
+import { Crypto } from '../types/types';
 import { NEW_CRYPTO } from '../Context/InitialState';
 import useMyCryptos from '../hooks/useMyCryptos';
-import { Crypto } from '../types/types';
-import uniqueString from 'unique-string';
 
 const CryptoForm = ({ editCrypto }: { editCrypto?: Crypto }) => {
+  const history = useHistory();
   const {
     myNewCrypto,
     setMyNewCrypto,
@@ -42,6 +45,7 @@ const CryptoForm = ({ editCrypto }: { editCrypto?: Crypto }) => {
     } else {
       addMyNewCrypto();
     }
+    history.push('/');
   }
 
   return (

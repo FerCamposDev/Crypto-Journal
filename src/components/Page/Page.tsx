@@ -40,7 +40,7 @@ const Page = (props: Props) => {
             </Grid>
           }
         </Grid>
-        <Typography variant="h5" align='center' sx={{ pb: 3 }}>
+        <Typography variant="h5" align='center' sx={{ pb: 2 }}>
           {title}
         </Typography>
         {children}

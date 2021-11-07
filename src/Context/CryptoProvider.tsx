@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import axios from "axios";
 import uniqueString from "unique-string";
 import { Crypto, CryptoGecko } from "../types/types";
@@ -6,6 +6,7 @@ import { CryptoContext } from "./CryptoContext";
 import { cryptoReducer } from "./cryptoReducer";
 import { INITIAL_STATE, NEW_CRYPTO } from "./InitialState";
 import { getCryptosStorage, saveCryptosStorage } from "../utils/localStorage";
+import { completeTodayCryptoData } from "./helpers";
 
 interface Props {
   children: JSX.Element | JSX.Element[]
@@ -14,22 +15,22 @@ interface Props {
 export const CryptoProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(cryptoReducer, INITIAL_STATE);
 
-  const getCryptos = async () => {
+  const getCryptos = useCallback(async () => {
     const res = await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false');
     dispatch({
       type: 'GET_CRYPTOS',
       payload: res.data as CryptoGecko[],
     })
-  }
+  }, []);
 
-  const getMyCryptos = () => {
+  const getMyCryptos = useCallback(() => {
     const myCryptos = getCryptosStorage();
-    completeTodayCryptoData(myCryptos);
+    completeTodayCryptoData(myCryptos, state.cryptos);
     dispatch({
       type: 'GET_MY_CRYPTOS',
       payload: myCryptos,
     })
-  }
+  }, [state.cryptos]);
 
   const setMyNewCrypto = (newCrypto: Crypto) => {
     dispatch({
@@ -41,7 +42,9 @@ export const CryptoProvider = ({ children }: Props) => {
   const setCryptoEdited = (cryptoEdited: Crypto) => {
     let myCryptos = [...state.myCryptos];
     const pos = myCryptos.findIndex(crypto => crypto.id === cryptoEdited.id);
-    myCryptos.splice(pos, 1, cryptoEdited);
+    if (pos) {
+      myCryptos.splice(pos, 1, cryptoEdited);
+    }
     dispatch({
       type: 'UPDATE_MY_CRYPTO',
       payload: myCryptos,
@@ -69,18 +72,6 @@ export const CryptoProvider = ({ children }: Props) => {
       payload: myCryptos,
     });
     saveCryptosStorage(myCryptos);
-  }
-
-  function completeTodayCryptoData(myCryptos: Crypto[] = []) {
-    if (state.cryptos.length) {
-      myCryptos.forEach((myCrypto: Crypto) => {
-        const crypto = state.cryptos.find(crypto => crypto.symbol === myCrypto.symbol);
-        if (crypto) {
-          myCrypto.image = crypto.image;
-          myCrypto.current_price = crypto.current_price;
-        }
-      })
-    }
   }
 
   return (
