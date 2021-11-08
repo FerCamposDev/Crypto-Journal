@@ -30,7 +30,7 @@ const CryptoItem = ({ crypto }: Props) => {
   }
 
   return (
-    <ListItem >
+    <ListItem button>
       <ListItemAvatar>
         <Avatar src={crypto.image} />
       </ListItemAvatar>

@@ -1,26 +1,27 @@
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import { Card, CardHeader, Grid, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Refresh from '@mui/icons-material/Refresh';
-
-import Typography from '@mui/material/Typography'
-import { Grid, ListItemSecondaryAction } from '@mui/material';
 
 interface Props {
   dollars: number
   ars: number
-  refreshTotals: ()=> void
+  refreshTotals: () => void
 }
 
 const Totals = (props: Props) => {
   const { dollars, ars, refreshTotals } = props;
   return (
-    <ListItem sx={{
+    <Card sx={{
       borderRadius: '6px',
       border: 'solid 1px',
     }}>
-      <ListItemText
-        primary={
+      <CardHeader
+        action={
+            <IconButton onClick={refreshTotals}>
+              <Refresh />
+            </IconButton>
+        }
+        title={
           <Grid container alignItems='center'>
             <Grid item xs={5} sm={5}>
               <Typography variant="subtitle2" align='center'>
@@ -34,7 +35,7 @@ const Totals = (props: Props) => {
             </Grid>
           </Grid>
         }
-        secondary={
+        subheader={
           <Grid container alignItems='center'>
             <Grid item xs={5} sm={5}>
               <Typography variant="subtitle2" align='center'>
@@ -49,12 +50,7 @@ const Totals = (props: Props) => {
           </Grid>
         }
       />
-      <ListItemSecondaryAction >
-        <IconButton size='small' onClick={refreshTotals}>
-          <Refresh fontSize='small' />
-        </IconButton>
-      </ListItemSecondaryAction >
-    </ListItem>
+    </Card>
   )
 }
 
